@@ -43,3 +43,7 @@ if st.button("Submit Order"):
 
     else:
         st.warning("Please enter a name and choose ingredients.")
+
+import requests
+smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")
+st.text(smoothiefroot_response)
