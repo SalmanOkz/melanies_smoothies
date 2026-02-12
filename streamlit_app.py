@@ -1,12 +1,11 @@
 # Import python packages
 import streamlit as st
-from snowflake.snowpark.functions import col, when_matched
+from snowflake.snowpark.functions import col
 
-st.title(":cup_with_straw: Customize Your Smoothie! :cup_with_straw:")
+st.title("🥤 Customize Your Smoothie! 🥤")
 
-# Get active Snowflake session
-cnx = st.connection("snowflake")
-session = cnz.session()
+# ⚠️ DO NOT create a connection
+# In SiS, session already exists
 
 # -----------------------------
 # ORDER ENTRY SECTION
@@ -31,12 +30,16 @@ ingredients_list = st.multiselect(
 if st.button("Submit Order"):
     if name_on_order and ingredients_list:
         ingredients_string = " ".join(ingredients_list)
+
         insert_stmt = f"""
             INSERT INTO smoothies.public.orders 
             (ingredients, name_on_order)
             VALUES ('{ingredients_string}', '{name_on_order}')
         """
+
         session.sql(insert_stmt).collect()
-        st.success("Your Smoothie is ordered!", icon='👍')
+
+        st.success("Your Smoothie is ordered!", icon="👍")
+
     else:
         st.warning("Please enter a name and choose ingredients.")
